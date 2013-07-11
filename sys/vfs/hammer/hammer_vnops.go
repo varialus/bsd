@@ -1,7 +1,5 @@
 // http://gitweb.dragonflybsd.org/dragonfly.git/blob/HEAD:/sys/vfs/hammer/hammer_vnops.c
 
-package hammer
-
 ///*
 // * Copyright (c) 2007-2008 The DragonFly Project.  All rights reserved.
 // * 
@@ -35,6 +33,13 @@ package hammer
 // * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // * SUCH DAMAGE.
 // */
+
+package hammer
+
+import(
+	"github.com/varialus/bsd/sys/sys"
+)
+
 //
 //#include <sys/param.h>
 //#include <sys/systm.h>
@@ -93,6 +98,7 @@ package hammer
 //static int hammer_vop_fifokqfilter (struct vop_kqfilter_args *);
 //
 //struct vop_ops hammer_vnode_vops = {
+type vop_ops struct {
 //	.vop_default =		vop_defaultop,
 //	.vop_fsync =		hammer_vop_fsync,
 //	.vop_getpages =		vop_stdgetpages,
@@ -129,6 +135,7 @@ package hammer
 //	.vop_mountctl =		hammer_vop_mountctl,
 //	.vop_kqfilter =		hammer_vop_kqfilter
 //};
+}
 //
 //struct vop_ops hammer_spec_vops = {
 //	.vop_default =		vop_defaultop,
@@ -1047,8 +1054,10 @@ package hammer
 //int
 //hammer_vop_getattr(struct vop_getattr_args *ap)
 //{
-func hammer_vop_getattr() int {
+func hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	struct hammer_inode *ip = VTOI(ap->a_vp);
+	/* Manually Expanded Macro from sys/vfs/hammer/hammer.go */
+	ip := (*hammer_inode)(ap.A_vp.V_data)
 //	struct vattr *vap = ap->a_vap;
 //
 //	/*
@@ -1139,6 +1148,7 @@ func hammer_vop_getattr() int {
 //		break;
 //	}
 //	hammer_unlock(&ip->lock);
+	hammer_unlock(&ip.lock)
 //	return(0);
 	return 0
 //}

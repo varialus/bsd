@@ -1,7 +1,5 @@
 // http://gitweb.dragonflybsd.org/dragonfly.git/blob/HEAD:/sys/sys/vnode.h
 
-package sys
-
 ///*
 // * Copyright (c) 1989, 1993
 // *	The Regents of the University of California.  All rights reserved.
@@ -38,6 +36,12 @@ package sys
 // * $FreeBSD: src/sys/sys/vnode.h,v 1.111.2.19 2002/12/29 18:19:53 dillon Exp $
 // * $DragonFly: src/sys/sys/vnode.h,v 1.83 2008/09/17 21:44:19 dillon Exp $
 // */
+
+package sys
+
+import(
+	"unsafe"
+)
 //
 //#ifndef _SYS_VNODE_H_
 //#define	_SYS_VNODE_H_
@@ -194,6 +198,7 @@ type Vnode struct {
 //	struct	lwkt_token v_token;		/* (see above) */
 //	enum	vtagtype v_tag;			/* type of underlying data */
 //	void	*v_data;			/* private data for fs */
+	V_data	unsafe.Pointer			/* private data for fs */
 //	struct namecache_list v_namecache;	/* (S) associated nc entries */
 //	struct	{
 //		struct	kqinfo vpi_kqinfo;	/* identity of poller(s) */

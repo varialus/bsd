@@ -8,16 +8,19 @@ Permission to use, copy, modify, and/or distribute this software for any purpose
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 */
 
-package hammer2_vnops
+package hammer2
 
 import (
+	"github.com/varialus/bsd/sys/sys"
 	"testing"
 )
 
 // Smoke Test
 // Letter after Test has to be a capital regardless of whether the function exported or not.
 func TestHammer2_vop_getattr(t *testing.T) {
-	if result := hammer2_vop_getattr(); result != 0 {
+	args := new(sys.Vop_getattr_args)
+	args.A_vp = new(sys.Vnode)
+	if result := hammer2_vop_getattr(args); result != 0 {
 		t.Errorf("Failed dummy test TestHammer_vop_getattr()")
 	}
 }

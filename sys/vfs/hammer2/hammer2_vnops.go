@@ -1,7 +1,5 @@
 // http://gitweb.dragonflybsd.org/dragonfly.git/blob/HEAD:/sys/vfs/hammer2/hammer2_vnops.c
 
-package hammer2_vnops
-
 ///*
 // * Copyright (c) 2011-2013 The DragonFly Project.  All rights reserved.
 // *
@@ -36,6 +34,13 @@ package hammer2_vnops
 // * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // * SUCH DAMAGE.
 // */
+
+package hammer2
+
+import(
+	"github.com/varialus/bsd/sys/sys"
+)
+
 ///*
 // * Kernel Filesystem interface
 // *
@@ -268,8 +273,12 @@ package hammer2_vnops
 //int
 //hammer2_vop_getattr(struct vop_getattr_args *ap)
 //{
-func hammer2_vop_getattr() int {
+// TODO: Remove use_ipdata_so_compiler_does_not_complain()
+func use_ipdata_so_compiler_does_not_complain(arg *hammer2_inode_data_t) {}
+func hammer2_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	hammer2_inode_data_t *ipdata;
+	var ipdata *hammer2_inode_data_t
+	use_ipdata_so_compiler_does_not_complain(ipdata)
 //	hammer2_chain_t *chain;
 //	hammer2_pfsmount_t *pmp;
 //	hammer2_inode_t *ip;

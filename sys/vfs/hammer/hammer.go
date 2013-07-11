@@ -936,6 +936,7 @@ type hammer_inode struct {
 //
 
 //typedef struct hammer_inode *hammer_inode_t;
+type hammer_inode_t *hammer_inode
 //
 
 //#define VTOI(vp)	((struct hammer_inode *)(vp)->v_data)
