@@ -20,7 +20,7 @@ import (
 func TestHammer_vop_getattr(t *testing.T) {
 	args := new(sys.Vop_getattr_args)
 	args.A_vp = new(sys.Vnode)
-	if result := hammer_vop_getattr(args); result != 0 {
+	if result := Hammer_vop_getattr(args); result != 0 {
 		t.Errorf("Failed dummy test TestHammer_vop_getattr()")
 	}
 }

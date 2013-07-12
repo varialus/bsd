@@ -37,8 +37,8 @@
 package hammer
 
 import(
-	"github.com/varialus/bsd/temporary_translation_utilities"
 	"github.com/varialus/bsd/sys/sys"
+	"github.com/varialus/bsd/temporary_translation_utilities"
 )
 
 //
@@ -1055,7 +1055,7 @@ type vop_ops struct {
 //int
 //hammer_vop_getattr(struct vop_getattr_args *ap)
 //{
-func hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
+func Hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	struct hammer_inode *ip = VTOI(ap->a_vp);
 	/* Manually Expanded Macro from sys/vfs/hammer/hammer.go */
 	var ip *hammer_inode = (*hammer_inode)(ap.A_vp.V_data)

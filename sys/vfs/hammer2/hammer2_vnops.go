@@ -38,8 +38,8 @@
 package hammer2
 
 import(
-	"github.com/varialus/bsd/temporary_translation_utilities"
 	"github.com/varialus/bsd/sys/sys"
+	"github.com/varialus/bsd/temporary_translation_utilities"
 )
 
 ///*
@@ -274,7 +274,7 @@ import(
 //int
 //hammer2_vop_getattr(struct vop_getattr_args *ap)
 //{
-func hammer2_vop_getattr(ap *sys.Vop_getattr_args) int {
+func Hammer2_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	hammer2_inode_data_t *ipdata;
 	var ipdata *hammer2_inode_data_t
 //	hammer2_chain_t *chain;
