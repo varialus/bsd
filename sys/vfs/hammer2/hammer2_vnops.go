@@ -38,6 +38,7 @@
 package hammer2
 
 import(
+	"github.com/varialus/bsd/temporary_translation_utilities"
 	"github.com/varialus/bsd/sys/sys"
 )
 
@@ -273,17 +274,19 @@ import(
 //int
 //hammer2_vop_getattr(struct vop_getattr_args *ap)
 //{
-// TODO: Remove use_ipdata_so_compiler_does_not_complain()
-func use_ipdata_so_compiler_does_not_complain(arg *hammer2_inode_data_t) {}
 func hammer2_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	hammer2_inode_data_t *ipdata;
 	var ipdata *hammer2_inode_data_t
-	use_ipdata_so_compiler_does_not_complain(ipdata)
 //	hammer2_chain_t *chain;
+	var chain *hammer2_chain_t
 //	hammer2_pfsmount_t *pmp;
+	var pmp *hammer2_pfsmount_t
 //	hammer2_inode_t *ip;
+	var ip *hammer2_inode_t
 //	struct vnode *vp;
+	var vp *sys.Vnode
 //	struct vattr *vap;
+	var vap *sys.Vattr
 //
 //	vp = ap->a_vp;
 //	vap = ap->a_vap;
@@ -319,6 +322,8 @@ func hammer2_vop_getattr(ap *sys.Vop_getattr_args) int {
 //
 //	hammer2_inode_unlock_sh(ip, chain);
 //
+	// TODO: Remove temporary_translation_utilities.Use_vars_so_compiler_does_not_complain()
+	temporary_translation_utilities.Use_vars_so_compiler_does_not_complain(ipdata, chain, pmp, ip, vp, vap)
 //	return (0);
 	return 0
 //}

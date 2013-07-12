@@ -37,6 +37,7 @@
 package hammer
 
 import(
+	"github.com/varialus/bsd/temporary_translation_utilities"
 	"github.com/varialus/bsd/sys/sys"
 )
 
@@ -1057,8 +1058,10 @@ type vop_ops struct {
 func hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	struct hammer_inode *ip = VTOI(ap->a_vp);
 	/* Manually Expanded Macro from sys/vfs/hammer/hammer.go */
-	ip := (*hammer_inode)(ap.A_vp.V_data)
+	var ip *hammer_inode = (*hammer_inode)(ap.A_vp.V_data)
 //	struct vattr *vap = ap->a_vap;
+	var vap *sys.Vattr = ap.A_vap
+	temporary_translation_utilities.Use_vars_so_compiler_does_not_complain(vap)
 //
 //	/*
 //	 * We want the fsid to be different when accessing a filesystem

@@ -403,6 +403,7 @@ type Vnode struct {
 //struct ucred;
 //struct uio;
 //struct vattr;
+/* Already defined as exported struct {} in sys/sys/vfsops.go */
 //struct vnode;
 //struct syncer_ctx;
 //

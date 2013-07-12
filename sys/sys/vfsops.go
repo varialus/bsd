@@ -85,7 +85,7 @@ package sys
 //struct nchandle;
 //struct componentname;
 //struct vattr;
-type vattr struct {}
+type Vattr struct {}
 //struct ucred;
 //struct uio;
 //struct file;
@@ -158,7 +158,7 @@ type Vop_getattr_args struct {
 //	struct vnode *a_vp;
 	A_vp *Vnode
 //	struct vattr *a_vap;
-	A_vap *vattr
+	A_vap *Vattr
 //};
 }
 //
