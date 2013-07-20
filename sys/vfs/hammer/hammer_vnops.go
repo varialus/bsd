@@ -1063,6 +1063,7 @@ func Hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 	var vap *sys.Vattr = ap.A_vap
 	temporary_translation_utilities.Use_vars_so_compiler_does_not_complain(vap)
 //
+
 //	/*
 //	 * We want the fsid to be different when accessing a filesystem
 //	 * with different as-of's so programs like diff don't think
@@ -1078,9 +1079,12 @@ func Hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	 * mount structure.
 //	 */
 //	++hammer_stats_file_iopsr;
+	hammer_stats_file_iopsr++
 //	hammer_lock_sh(&ip->lock);
+	hammer_lock_sh(&ip.lock)
 //	vap->va_fsid = ip->pfsm->fsid_udev ^ (u_int32_t)ip->obj_asof ^
 //		       (u_int32_t)(ip->obj_asof >> 32);
+	//vap.Va_fsid = sys.Udev_t(sys.U_int32_t(ip.pfsm.fsid_udev) ^ sys.U_int32_t(ip.obj_asof) ^ sys.U_int32_t(ip.obj_asof >> 32))
 //
 //	vap->va_fileid = ip->ino_leaf.base.obj_id;
 //	vap->va_mode = ip->ino_data.mode;

@@ -198,7 +198,7 @@ type hammer_btree_internal_elm struct {
 //	hammer_tid_t	mirror_tid;		/* mirroring support */
 	mirror_tid hammer_tid_t			/* mirroring support */
 //	hammer_off_t	subtree_offset;
-	subtree_offset hammer_off_t
+	subtree_offset Hammer_off_t
 //	int32_t		unused02;
 	unused02 int32
 //	int32_t		unused03;
@@ -229,7 +229,7 @@ type hammer_btree_leaf_elm struct {
 //	u_int32_t	delete_ts;
 	delete_ts uint32
 //	hammer_off_t	data_offset;
-	data_offset hammer_off_t
+	data_offset Hammer_off_t
 //	int32_t		data_len;
 	data_len int32
 //	hammer_crc_t	data_crc;
@@ -333,7 +333,7 @@ type hammer_node_ondisk struct {
 //	u_int32_t	signature;
 	signature	uint32
 //	hammer_off_t	parent;		/* 0 if at root of cluster */
-	parent		hammer_off_t	/* 0 if at root of cluster */
+	parent		Hammer_off_t	/* 0 if at root of cluster */
 //	int32_t		count;
 	count		int32
 //	u_int8_t	type;
@@ -343,13 +343,13 @@ type hammer_node_ondisk struct {
 //	u_int16_t	reserved02;
 	reserved02	uint16
 //	hammer_off_t	reserved03;	/* future link_left */
-	reserved03	hammer_off_t	/* future link_left */
+	reserved03	Hammer_off_t	/* future link_left */
 //	hammer_off_t	reserved04;	/* future link_right */
-	reserved04	hammer_off_t	/* future link_right */
+	reserved04	Hammer_off_t	/* future link_right */
 //	hammer_off_t	reserved05;
-	reserved05	hammer_off_t
+	reserved05	Hammer_off_t
 //	hammer_off_t	reserved06;
-	reserved06	hammer_off_t
+	reserved06	Hammer_off_t
 //	hammer_tid_t	mirror_tid;	/* mirroring support (aggregator) */
 	mirror_tid	hammer_tid_t	/* mirroring support (aggregator) */
 //
@@ -588,7 +588,7 @@ func hammer_btree_iterate(cursor *hammer_cursor) int {
 					platform.Curthread);
 			}
 //			KKASSERT(cursor->parent == NULL || cursor->parent->ondisk->elms[cursor->parent_index].internal.subtree_offset == cursor->node->node_offset);
-			kern.KKASSERT((cursor.parent == nil) || (cursor.parent.ondisk.elms[cursor.parent_index].internal(0).subtree_offset == hammer_off_t(cursor.node.node_offset)))
+			kern.KKASSERT((cursor.parent == nil) || (cursor.parent.ondisk.elms[cursor.parent_index].internal(0).subtree_offset == Hammer_off_t(cursor.node.node_offset)))
 //			error = hammer_cursor_up(cursor);
 			error = hammer_cursor_up(cursor)
 //			if (error)
@@ -1568,7 +1568,7 @@ func hammer_btree_extract(cursor *hammer_cursor, flags int) int {
 //	hammer_btree_elm_t elm;
 	var elm hammer_btree_elm
 //	hammer_off_t data_off;
-	var data_off hammer_off_t
+	var data_off Hammer_off_t
 //	hammer_mount_t hmp;
 	var hmp hammer_mount_t
 //	int32_t data_len;

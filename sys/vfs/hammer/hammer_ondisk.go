@@ -1093,7 +1093,7 @@ func hammer_rel_volume(volume hammer_volume_t, locked int) {
 //_hammer_bread(hammer_mount_t hmp, hammer_off_t buf_offset, int bytes,
 //	     int *errorp, struct hammer_buffer **bufferp)
 //{
-func _hammer_bread(hmp hammer_mount_t, buf_offset hammer_off_t, bytes int,
+func _hammer_bread(hmp hammer_mount_t, buf_offset Hammer_off_t, bytes int,
 	     errorp *int, bufferp **hammer_buffer) *int {
 //	hammer_buffer_t buffer;
 //	int32_t xoff = (int32_t)buf_offset & HAMMER_BUFMASK;
@@ -1132,7 +1132,7 @@ func _hammer_bread(hmp hammer_mount_t, buf_offset hammer_off_t, bytes int,
 //
 //void *
 //hammer_bread_ext(hammer_mount_t hmp, hammer_off_t buf_offset, int bytes,
-func hammer_bread_ext(hmp hammer_mount_t, buf_offset hammer_off_t, bytes int,
+func hammer_bread_ext(hmp hammer_mount_t, buf_offset Hammer_off_t, bytes int,
 //	         int *errorp, struct hammer_buffer **bufferp)
 //{
 		errorp *int, bufferp **hammer_buffer) *int {
@@ -1227,7 +1227,7 @@ func hammer_bread_ext(hmp hammer_mount_t, buf_offset hammer_off_t, bytes int,
 //hammer_get_node(hammer_transaction_t trans, hammer_off_t node_offset,
 //		int isnew, int *errorp)
 //{
-func hammer_get_node(trans hammer_transaction_t, node_offset hammer_off_t,
+func hammer_get_node(trans hammer_transaction_t, node_offset Hammer_off_t,
 		isnew int, errorp *int) hammer_node_t {
 //	hammer_mount_t hmp = trans->hmp;
 //	hammer_node_t node;
@@ -1636,7 +1636,7 @@ func hammer_flush_node(node hammer_node_t, locked int) {
 //hammer_node_t
 //hammer_alloc_btree(hammer_transaction_t trans, hammer_off_t hint, int *errorp)
 //{
-func hammer_alloc_btree(trans hammer_transaction_t, hint hammer_off_t, errorp *int ) hammer_node_t {
+func hammer_alloc_btree(trans hammer_transaction_t, hint Hammer_off_t, errorp *int ) hammer_node_t {
 //	hammer_buffer_t buffer = NULL;
 //	hammer_node_t node = NULL;
 	var node hammer_node_t = nil;

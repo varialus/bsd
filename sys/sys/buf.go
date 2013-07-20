@@ -382,9 +382,11 @@ type Buf struct {}
 //
 //#ifdef _KERNEL
 //extern long	nbuf;			/* The number of buffer headers */
+var	Nbuf	int32			/* The number of buffer headers */
 //extern long	maxswzone;		/* Max KVA for swap structures */
 //extern long	maxbcache;		/* Max KVA for buffer cache */
 //extern long	hidirtybufspace;
+var	Hidirtybufspace	int32
 //extern int      buf_maxio;              /* nominal maximum I/O for buffer */
 //extern struct buf *buf;			/* The buffer headers. */
 //extern char	*buffers;		/* The buffer contents. */

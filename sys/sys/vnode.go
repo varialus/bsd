@@ -339,6 +339,7 @@ type Vnode struct {
 //extern	struct vnode *rootvnode;	/* root (i.e. "/") vnode */
 //extern  struct nchandle rootnch;	/* root (i.e. "/") namecache */
 //extern	int desiredvnodes;		/* number of vnodes desired */
+var		Desiredvnodes	int		/* number of vnodes desired */
 //extern	time_t syncdelay;		/* max time to delay syncing data */
 //extern	time_t filedelay;		/* time to delay syncing files */
 //extern	time_t dirdelay;		/* time to delay syncing directories */

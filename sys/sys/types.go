@@ -81,7 +81,9 @@ package sys
 //typedef __uint8_t	u_int8_t;
 //typedef __uint16_t	u_int16_t;
 //typedef __uint32_t	u_int32_t;
+type	U_int32_t	uint32
 //typedef __uint64_t	u_int64_t;
+type	U_int64_t	uint64
 //typedef	__uint64_t	u_quad_t;	/* quads */
 //typedef	__int64_t	quad_t;
 //typedef	quad_t *	qaddr_t;
@@ -150,7 +152,7 @@ type Pid_t int
 //struct cdev;
 //
 //typedef	u_int32_t	udev_t;		/* device number */
-type		Udev_t		uint32
+type		Udev_t		U_int32_t
 //typedef struct cdev	*cdev_t;
 //
 //#endif
@@ -198,6 +200,7 @@ type		Udev_t		uint32
 //#ifndef _SIZE_T_DECLARED
 //#define _SIZE_T_DECLARED
 //typedef __size_t	size_t;
+type	Size_t uint
 //#endif
 //
 //#ifndef _SSIZE_T_DECLARED

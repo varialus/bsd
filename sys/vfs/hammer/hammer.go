@@ -104,7 +104,10 @@ import (
 
 //MALLOC_DECLARE(M_HAMMER);
 /* Manually Expanded Macro */
-var M_HAMMER [1]sys.Malloc_type
+//var M_HAMMER [1]sys.Malloc_type
+// The above is the expanded.
+// The below was to make something work.
+var M_HAMMER sys.Malloc_type
 //
 
 ///*
@@ -617,7 +620,7 @@ type hammer_dedup_cache struct {
 //	int bytes;
 	bytes int
 //	hammer_off_t data_offset; 
-	data_offset hammer_off_t
+	data_offset Hammer_off_t
 //	hammer_crc_t crc;
 	crc hammer_crc_t
 //} *hammer_dedup_cache_t;
@@ -928,9 +931,9 @@ type hammer_inode struct {
 //	 * on completion of the flush.
 //	 */
 //	hammer_off_t	redo_fifo_start;
-	redo_fifo_start	hammer_off_t
+	redo_fifo_start	Hammer_off_t
 //	hammer_off_t	redo_fifo_next;
-	redo_fifo_next	hammer_off_t
+	redo_fifo_next	Hammer_off_t
 //};
 }
 //
@@ -1156,7 +1159,7 @@ type hammer_record struct {
 //	int				gflags;
 	gflags				int
 //	hammer_off_t			zone2_offset;	/* direct-write only */
-	zone2_offset			hammer_off_t	/* direct-write only */
+	zone2_offset			Hammer_off_t	/* direct-write only */
 //};
 }
 //
@@ -1570,9 +1573,9 @@ type hammer_volume struct {
 //	int64_t buffer_base;	/* base offset of buffer 0 */
 	buffer_base int64 	/* base offset of buffer 0 */
 //	hammer_off_t maxbuf_off; /* Maximum buffer offset (zone-2) */
-	maxbuf_off hammer_off_t  /* Maximum buffer offset (zone-2) */
-//	hammer_off_t maxraw_off; /* Maximum raw offset for device */
-	maxraw_off hammer_off_t  /* Maximum raw offset for device */
+	maxbuf_off Hammer_off_t  /* Maximum buffer offset (zone-2) */
+//	Hammer_off_t maxraw_off; /* Maximum raw offset for device */
+	maxraw_off Hammer_off_t  /* Maximum raw offset for device */
 //	char	*vol_name;
 	vol_name string
 //	struct vnode *devvp;
@@ -1606,9 +1609,9 @@ type hammer_buffer struct {
 //	void *ondisk;
 	ondisk *interface{}
 //	hammer_off_t zoneX_offset;
-	zoneX_offset hammer_off_t
+	zoneX_offset Hammer_off_t
 //	hammer_off_t zone2_offset;
-	zone2_offset hammer_off_t
+	zone2_offset Hammer_off_t
 //	struct hammer_reserve *resv;
 	resv *hammer_reserve
 //	struct hammer_node_list clist;
@@ -1653,7 +1656,7 @@ type hammer_node struct {
 		rbe_color int			/* node color */
 	}
 //	hammer_off_t		node_offset;	/* full offset spec */
-	node_offset	hammer_off_t		/* full offset spec */
+	node_offset	Hammer_off_t		/* full offset spec */
 //	struct hammer_mount	*hmp;
 	hmp			*hammer_mount
 //	struct hammer_buffer	*buffer;	/* backing buffer */
@@ -1827,7 +1830,7 @@ type hammer_reserve struct {
 //	int32_t		bytes_free;
 	bytes_free	int32
 //	hammer_off_t	zone_offset;
-	zone_offset	hammer_off_t
+	zone_offset	Hammer_off_t
 //};
 }
 //
@@ -1876,7 +1879,7 @@ type hammer_undo struct {
 		trace sys.Qm_trace
 	}
 //	hammer_off_t		offset;
-	offset			hammer_off_t
+	offset			Hammer_off_t
 //	int			bytes;
 	bytes			int
 //};
@@ -2071,7 +2074,7 @@ type hammer_mount struct {
 //	u_int32_t	recover_stage2_seqno;	/* REDO recovery seqno */
 	recover_stage2_seqno	uint32		/* REDO recovery seqno */
 //	hammer_off_t	recover_stage2_offset;	/* REDO recovery offset */
-	recover_stage2_offset	hammer_off_t	/* REDO recovery offset */
+	recover_stage2_offset	Hammer_off_t	/* REDO recovery offset */
 //
 
 //	struct netexport export;

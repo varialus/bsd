@@ -39,6 +39,10 @@
 
 package hammer
 
+import (
+	"github.com/varialus/bsd/sys/sys"
+)
+
 //#ifndef VFS_HAMMER_DISK_H_
 //#define VFS_HAMMER_DISK_H_
 //
@@ -117,7 +121,7 @@ const	HAMMER_BUFMASK			= (HAMMER_BUFSIZE - 1)
 //typedef u_int64_t hammer_tid_t;
 type hammer_tid_t uint64
 //typedef u_int64_t hammer_off_t;
-type hammer_off_t uint64
+type Hammer_off_t sys.U_int64_t
 //typedef u_int32_t hammer_seq_t;
 type hammer_seq_t uint32
 //typedef u_int32_t hammer_crc_t;
@@ -633,7 +637,7 @@ type hammer_volume_ondisk struct {
 //	int64_t vol0_stat_inodes;	/* for statfs only */
 //	int64_t vol0_stat_records;	/* total records in filesystem */
 //	hammer_off_t vol0_btree_root;	/* B-Tree root */
-	vol0_btree_root hammer_off_t
+	vol0_btree_root Hammer_off_t
 //	hammer_tid_t vol0_next_tid;	/* highest partially synchronized TID */
 //	hammer_off_t vol0_unused03;
 //

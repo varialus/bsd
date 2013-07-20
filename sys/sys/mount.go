@@ -479,6 +479,7 @@ type Mount struct {
 //#include <sys/queue.h>
 //#endif
 //struct vfsconf {
+type Vfsconf struct {
 //	struct	vfsops *vfc_vfsops;	/* filesystem operations vector */
 //	char	vfc_name[MFSNAMELEN];	/* filesystem type name */
 //	int	vfc_typenum;		/* historic filesystem type number */
@@ -486,6 +487,7 @@ type Mount struct {
 //	int	vfc_flags;		/* permanent flags */
 //	STAILQ_ENTRY(vfsconf) vfc_next;	/* next in list */
 //};
+}
 //
 //struct ovfsconf {
 //	void	*vfc_vfsops;

@@ -85,7 +85,7 @@ package sys
 //struct nchandle;
 //struct componentname;
 //struct vattr;
-type Vattr struct {}
+/* Already defined in sys/sys/vfscache.go */
 //struct ucred;
 //struct uio;
 //struct file;
