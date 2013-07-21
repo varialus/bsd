@@ -95,10 +95,15 @@ package sys
 //struct vfscache;
 //
 //struct vop_generic_args {
+type vop_generic_args struct {
 //	struct syslink_desc *a_desc;	/* command descriptor for the call */
+	a_desc *syslink_desc		/* command descriptor for the call */
 //	struct vop_ops *a_ops;		/* operations vector for the call */
+	a_ops  *vop_ops			/* operations vector for the call */
 //	int a_reserved[4];
+	a_reserved [4]int
 //};
+}
 //
 //struct vop_old_lookup_args {
 //	struct vop_generic_args a_head;
@@ -270,15 +275,25 @@ type Vop_getattr_args struct {
 //	char *a_target;
 //};
 //
+
 //struct vop_readdir_args {
+type Vop_readdir_args struct {
 //	struct vop_generic_args a_head;
+	a_head vop_generic_args
 //	struct vnode *a_vp;
+	A_vp *Vnode
 //	struct uio *a_uio;
+	A_uio *Uio
 //	struct ucred *a_cred;
+	a_cred *ucred
 //	int *a_eofflag;
+	A_eofflag *int
 //	int *a_ncookies;
+	A_ncookies *int
 //	off_t **a_cookies;
+	A_cookies **Off_t
 //};
+}
 //
 //struct vop_readlink_args {
 //	struct vop_generic_args a_head;
@@ -584,6 +599,7 @@ type Vop_getattr_args struct {
 // * calls used for chaining vop_ops structures from a VFS context.
 // */
 //struct vop_ops {
+type vop_ops struct {
 //	struct {
 //		struct mount	*vv_mount;
 //	} head;
@@ -657,6 +673,7 @@ type Vop_getattr_args struct {
 //	int	(*vop_nrename)(struct vop_nrename_args *);
 //#define vop_ops_last_field	vop_nrename
 //};
+}
 //
 ///*
 // * vop_mountctl() operations

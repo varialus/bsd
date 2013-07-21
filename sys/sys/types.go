@@ -106,17 +106,18 @@ type	U_int64_t	uint64
 //typedef	__uint32_t	in_addr_t;	/* base type for internet address */
 //typedef	__uint16_t	in_port_t;
 //typedef	__uint64_t	ino_t;		/* inode number */
+type		Ino_t		uint64		/* inode number */
 //typedef	long		key_t;		/* IPC key (for Sys V IPC) */
 //typedef	__uint16_t	mode_t;		/* permissions */
 //typedef	__uint32_t	nlink_t;	/* link count */
 //#ifndef _OFF_T_DECLARED
 //typedef	__off_t		off_t;		/* file offset */
-type Off_t int
+type		Off_t		int		/* file offset */
 //#define _OFF_T_DECLARED
 //#endif
 //#ifndef _PID_T_DECLARED
 //typedef	__pid_t		pid_t;		/* process id */
-type Pid_t int
+type		Pid_t		int		/* process id */
 //#define _PID_T_DECLARED
 //#endif
 //typedef	__pid_t		lwpid_t;	/* light weight process id */

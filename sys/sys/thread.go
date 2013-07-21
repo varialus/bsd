@@ -48,7 +48,7 @@ package sys
 type Thread struct {}
 //struct lwkt_queue;
 //struct lwkt_token;
-type Lwkt_token struct {}
+/* Already Defined in sys/thread.go */
 //struct lwkt_tokref;
 //struct lwkt_ipiq;
 //struct lwkt_cpu_msg;
@@ -58,6 +58,7 @@ type Lwkt_token struct {}
 //
 //typedef struct lwkt_queue	*lwkt_queue_t;
 //typedef struct lwkt_token	*lwkt_token_t;
+type	Lwkt_token_t 		*Lwkt_token
 //typedef struct lwkt_tokref	*lwkt_tokref_t;
 //typedef struct lwkt_cpu_msg	*lwkt_cpu_msg_t;
 //typedef struct lwkt_cpu_port	*lwkt_cpu_port_t;
@@ -117,11 +118,13 @@ type	Thread_t		*Thread
 // */
 //
 //typedef struct lwkt_token {
+type Lwkt_token struct{
 //    long		t_count;	/* Shared/exclreq/exclusive access */
 //    struct lwkt_tokref	*t_ref;		/* Exclusive ref */
 //    long		t_collisions;	/* Collision counter */
 //    const char		*t_desc;	/* Descriptive name */
 //} lwkt_token;
+}
 //
 //#define TOK_EXCLUSIVE	0x00000001	/* Exclusive lock held */
 //#define TOK_EXCLREQ	0x00000002	/* Exclusive request pending */

@@ -102,6 +102,7 @@ const		M_ZERO       	= 0x0100	/* bzero() the allocation */
 //#define	M_SYSALLOC	M_SYSWAIT
 //
 //#define	M_MAGIC		877983977	/* time when first defined :-) */
+const		M_MAGIC		= 877983977	/* time when first defined :-) */
 //
 ///*
 // * The malloc tracking structure.  Note that per-cpu entries must be
@@ -115,19 +116,31 @@ const		M_ZERO       	= 0x0100	/* bzero() the allocation */
 //struct malloc_type {
 type Malloc_type struct {
 //	struct malloc_type *ks_next;	/* next in list */
+	Ks_next		*Malloc_type	/* next in list */
 //	size_t 	ks_memuse[SMP_MAXCPU];	/* total memory held in bytes */
+	Ks_memuse []Size_t	/* total memory held in bytes */
 //	size_t	ks_loosememuse;		/* (inaccurate) aggregate memuse */
+	Ks_loosememuse	Size_t		/* (inaccurate) aggregate memuse */
 //	size_t	ks_limit;	/* most that are allowed to exist */
 	Ks_limit	Size_t	/* most that are allowed to exist */
 //	long	ks_size;	/* sizes of this thing that are allocated */
+	Ks_size		int32	/* sizes of this thing that are allocated */
 //	size_t	ks_inuse[SMP_MAXCPU]; /* # of allocs currently in use */
+	Ks_inuse []Size_t 	/* # of allocs currently in use */
 //	__int64_t ks_calls;	/* total packets of this type ever allocated */
+	Ks_calls int64	/* total packets of this type ever allocated */
 //	long	ks_maxused;	/* maximum number ever used */
+	Ks_maxused	int32	/* maximum number ever used */
 //	__uint32_t ks_magic;	/* if it's not magic, don't touch it */
+	Ks_magic uint32	/* if it's not magic, don't touch it */
 //	const char *ks_shortdesc;	/* short description */
+	Ks_shortdesc	string	/* short description */
 //	__uint16_t ks_limblocks; /* number of times blocked for hitting limit */
+	Ks_limblocks uint16 /* number of times blocked for hitting limit */
 //	__uint16_t ks_mapblocks; /* number of times blocked for kernel map */
+	Ks_mapblocks uint16 /* number of times blocked for kernel map */
 //	long	ks_reserved[4];	/* future use (module compatibility) */
+	Ks_reserved [4]int32	/* future use (module compatibility) */
 //};
 }
 //
@@ -199,10 +212,6 @@ type Malloc_type struct {
 //			const char *file, int line);
 //#define kmalloc(size, type, flags)		\
 //	kmalloc_debug(size, type, flags, __FILE__, __LINE__)
-func kmalloc(interface{}, interface{}, interface{}) interface{} {
-	var return_value interface{}
-	return return_value
-}
 //#define krealloc(addr, size, type, flags)	\
 //	krealloc_debug(addr, size, type, flags, __FILE__, __LINE__)
 //#define kstrdup(str, type)			\

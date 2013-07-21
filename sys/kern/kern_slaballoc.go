@@ -39,6 +39,7 @@ package kern
 
 import (
 	"github.com/varialus/bsd/sys/sys"
+	"unsafe"
 )
 
 // *
@@ -200,6 +201,33 @@ import (
 //MALLOC_DEFINE(M_CACHE, "cache", "Various Dynamically allocated caches");
 //MALLOC_DEFINE(M_DEVBUF, "devbuf", "device driver memory");
 //MALLOC_DEFINE(M_TEMP, "temp", "misc temporary data buffers");
+/* Manually Expanded Macro from sys/malloc.go */
+/* Not Yet Expanded */
+//#if defined(_KERNEL) || defined(_KERNEL_STRUCTURES)
+//
+//#define	MALLOC_DEFINE(type, shortdesc, longdesc)	\
+//	struct malloc_type type[1] = { 			\
+//	    { NULL, { 0 }, 0, 0, 0, { 0 }, 0, 0, M_MAGIC, shortdesc, 0, 0, { 0 } } \
+//	}; 								    \
+//	SYSINIT(type##_init, SI_BOOT1_KMALLOC, SI_ORDER_ANY, malloc_init, type); \
+//	SYSUNINIT(type##_uninit, SI_BOOT1_KMALLOC, SI_ORDER_ANY, malloc_uninit, type)
+//
+//#else
+//
+//#define	MALLOC_DEFINE(type, shortdesc, longdesc)	\
+//	struct malloc_type type[1] = { 			\
+//	    { NULL, { 0 }, 0, 0, 0, { 0 }, 0, 0, M_MAGIC, shortdesc, 0, 0 } \
+//	};
+//
+//#endif
+/* Expanded but Not Translated */
+//	struct malloc_type M_TEMP[1] = { 			\
+//	    { NULL, { 0 }, 0, 0, 0, { 0 }, 0, 0, M_MAGIC, shortdesc, 0, 0, { 0 } } \
+//	};
+/* Translated */
+var M_TEMP sys.Malloc_type = sys.Malloc_type{ nil, []sys.Size_t{ 0 }, 0, 0, 0, []sys.Size_t{ 0 }, 0, 0, sys.M_MAGIC, "temp", 0, 0, [4]int32{ 0 } }
+
+
 // 
 //MALLOC_DEFINE(M_IP6OPT, "ip6opt", "IPv6 options");
 //MALLOC_DEFINE(M_IP6NDP, "ip6ndp", "IPv6 Neighbor Discovery");
@@ -548,6 +576,7 @@ import (
 //kmalloc(unsigned long size, struct malloc_type *type, int flags)
 //#endif
 //{
+func Kmalloc(size uint32, type_ *sys.Malloc_type, flags int) unsafe.Pointer {
 //    SLZone *z;
 //    SLChunk *chunk;
 //    SLChunk *bchunk;
@@ -896,7 +925,9 @@ import (
 //    crit_exit();
 //    logmemory(malloc_end, NULL, type, size, flags);
 //    return(NULL);
+	return nil
 //}
+}
 //
 ///*
 // * kernel realloc.  (SLAB ALLOCATOR) (MP SAFE)
@@ -1125,6 +1156,7 @@ func Kmalloc_limit(type_ sys.Malloc_type) sys.Size_t {
 //void
 //kfree(void *ptr, struct malloc_type *type)
 //{
+func Kfree(ptr unsafe.Pointer, type_ *sys.Malloc_type) {
 //    SLZone *z;
 //    SLChunk *chunk;
 //    SLGlobalData *slgd;
@@ -1361,6 +1393,7 @@ func Kmalloc_limit(type_ sys.Malloc_type) sys.Size_t {
 //    logmemory_quick(free_end);
 //    crit_exit();
 //}
+}
 //
 //#if defined(INVARIANTS)
 //

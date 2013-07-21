@@ -1638,10 +1638,10 @@ func hammer_btree_extract(cursor *hammer_cursor, flags int) int {
 	kern.KKASSERT(data_len >= 0 && data_len <= HAMMER_XBUFSIZE)
 //	cursor->data = hammer_bread_ext(hmp, data_off, data_len,
 	int32_cast_as_int := int(error)
-	cursor.data = hammer_bread_ext(hmp, data_off, int(data_len),
+	cursor.data = (*hammer_data_ondisk)(hammer_bread_ext(hmp, data_off, int(data_len),
 //					&error, &cursor->data_buffer);
 					&int32_cast_as_int,
-					&cursor.data_buffer)
+					&cursor.data_buffer))
 //
 
 	/*

@@ -1,7 +1,5 @@
 // http://gitweb.dragonflybsd.org/dragonfly.git/blob/HEAD:/sys/vfs/hammer/hammer_subs.c
 
-package hammer
-
 ///*
 // * Copyright (c) 2007-2011 The DragonFly Project.  All rights reserved.
 // * 
@@ -35,6 +33,13 @@ package hammer
 // * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // * SUCH DAMAGE.
 // */
+
+package hammer
+
+import (
+	"github.com/varialus/bsd/sys/sys"
+)
+
 ///*
 // * HAMMER structural locking
 // */
@@ -858,9 +863,13 @@ func hammer_unlock(lock *hammer_lock) {
 //int
 //hammer_get_dtype(u_int8_t obj_type)
 //{
+func hammer_get_dtype(obj_type uint8) int {
 //	switch(obj_type) {
+	switch(obj_type) {
 //	case HAMMER_OBJTYPE_DIRECTORY:
+	case HAMMER_OBJTYPE_DIRECTORY:
 //		return(DT_DIR);
+		return sys.DT_DIR
 //	case HAMMER_OBJTYPE_REGFILE:
 //		return(DT_REG);
 //	case HAMMER_OBJTYPE_DBFILE:
@@ -876,10 +885,14 @@ func hammer_unlock(lock *hammer_lock) {
 //	case HAMMER_OBJTYPE_SOFTLINK:
 //		return(DT_LNK);
 //	default:
+	default:
 //		return(DT_UNKNOWN);
+		return sys.DT_UNKNOWN
 //	}
+	}
 //	/* not reached */
 //}
+}
 //
 //u_int8_t
 //hammer_get_obj_type(enum vtype vtype)

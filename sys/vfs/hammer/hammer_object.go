@@ -1,7 +1,5 @@
 // http://gitweb.dragonflybsd.org/dragonfly.git/blob/HEAD:/sys/vfs/hammer/hammer_object.c
 
-package hammer
-
 ///*
 // * Copyright (c) 2007-2008 The DragonFly Project.  All rights reserved.
 // * 
@@ -35,6 +33,9 @@ package hammer
 // * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 // * SUCH DAMAGE.
 // */
+
+package hammer
+
 //
 //#include "hammer.h"
 //
@@ -1587,8 +1588,10 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //int
 //hammer_ip_first(hammer_cursor_t cursor)
 //{
+func hammer_ip_first(cursor hammer_cursor_t) int {
 //	hammer_inode_t ip __debugvar = cursor->ip;
 //	int error;
+	var error int
 //
 //	KKASSERT(ip != NULL);
 //
@@ -1620,7 +1623,9 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //		error = hammer_ip_next(cursor);
 //
 //	return (error);
+	return error
 //}
+}
 //
 ///*
 // * Retrieve the next record in a merged iteration within the bounds of the
@@ -1636,10 +1641,12 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //int
 //hammer_ip_next(hammer_cursor_t cursor)
 //{
+func hammer_ip_next(cursor hammer_cursor_t) int {
 //	hammer_btree_elm_t elm;
 //	hammer_record_t rec;
 //	hammer_record_t tmprec;
 //	int error;
+	var error int
 //	int r;
 //
 //again:
@@ -1884,7 +1891,9 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //		break;
 //	}
 //	return(error);
+	return error
 //}
+}
 //
 ///*
 // * Resolve the cursor->data pointer for the current cursor position in
@@ -1893,8 +1902,10 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //int
 //hammer_ip_resolve_data(hammer_cursor_t cursor)
 //{
+func hammer_ip_resolve_data(cursor hammer_cursor_t) int {
 //	hammer_record_t record;
 //	int error;
+	var error int
 //
 //	if (hammer_cursor_inmem(cursor)) {
 //		/*
@@ -1923,7 +1934,9 @@ func hammer_wait_mem_record_ident(record hammer_record_t, ident string) {
 //		error = hammer_btree_extract(cursor, HAMMER_CURSOR_GET_DATA);
 //	}
 //	return(error);
+	return error
 //}
+}
 //
 ///*
 // * Backend truncation / record replacement - delete records in range.

@@ -13,10 +13,8 @@ Status
 
 **Translation Underway**
 
+ - sys/vfs/hammer/hammer_vfsops.go
  - sys/vfs/hammer/hammer_vnops.go
- - sys/vfs/hammer/hammer_vnops_test.go
- - sys/vfs/hammer2/hammer2_vnops.go
- - sys/vfs/hammer2/hammer2_vnops_test.go
 
 Setup
 -----

@@ -44,6 +44,10 @@
 
 package hammer
 
+import (
+	"unsafe"
+)
+
 //#include "hammer.h"
 //#include <sys/fcntl.h>
 //#include <sys/nlookup.h>
@@ -1135,7 +1139,7 @@ func _hammer_bread(hmp hammer_mount_t, buf_offset Hammer_off_t, bytes int,
 func hammer_bread_ext(hmp hammer_mount_t, buf_offset Hammer_off_t, bytes int,
 //	         int *errorp, struct hammer_buffer **bufferp)
 //{
-		errorp *int, bufferp **hammer_buffer) *int {
+		errorp *int, bufferp **hammer_buffer) unsafe.Pointer {
 //	bytes = (bytes + HAMMER_BUFMASK) & ~HAMMER_BUFMASK;
 	bytes = (bytes + HAMMER_BUFMASK) & ^HAMMER_BUFMASK
 //	return(_hammer_bread(hmp, buf_offset, bytes, errorp, bufferp));

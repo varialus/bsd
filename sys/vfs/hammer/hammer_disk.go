@@ -40,7 +40,10 @@
 package hammer
 
 import (
+	"bytes"
+	"encoding/binary"
 	"github.com/varialus/bsd/sys/sys"
+	"unsafe"
 )
 
 //#ifndef VFS_HAMMER_DISK_H_
@@ -131,6 +134,7 @@ type hammer_crc_t uint32
 //#define HAMMER_MAX_TID		0xFFFFFFFFFFFFFFFFULL	/* unsigned */
 //#define HAMMER_MIN_KEY		-0x8000000000000000LL	/* signed */
 //#define HAMMER_MAX_KEY		0x7FFFFFFFFFFFFFFFLL	/* signed */
+const	HAMMER_MAX_KEY			= 0x7FFFFFFFFFFFFFFF	/* signed */
 //#define HAMMER_MIN_OBJID	HAMMER_MIN_KEY		/* signed */
 //#define HAMMER_MAX_OBJID	HAMMER_MAX_KEY		/* signed */
 //#define HAMMER_MIN_RECTYPE	0x0U			/* unsigned */
@@ -691,6 +695,7 @@ type hammer_volume_ondisk struct {
 //#define HAMMER_RECTYPE_DATA		0x0010
 const HAMMER_RECTYPE_DATA		= 0x0010
 //#define HAMMER_RECTYPE_DIRENTRY		0x0011
+const	HAMMER_RECTYPE_DIRENTRY		= 0x0011
 //#define HAMMER_RECTYPE_DB		0x0012
 const HAMMER_RECTYPE_DB			= 0x0012
 //#define HAMMER_RECTYPE_EXT		0x0013	/* ext attributes */
@@ -707,6 +712,7 @@ const HAMMER_RECTYPE_DB			= 0x0012
 //
 //#define HAMMER_OBJTYPE_UNKNOWN		0	/* (never exists on-disk) */
 //#define HAMMER_OBJTYPE_DIRECTORY	1
+const	HAMMER_OBJTYPE_DIRECTORY	= 1
 //#define HAMMER_OBJTYPE_REGFILE		2
 //#define HAMMER_OBJTYPE_DBFILE		3
 //#define HAMMER_OBJTYPE_FIFO		4
@@ -745,6 +751,7 @@ type hammer_inode_data struct {
 //	u_int32_t rminor;	/* used by device nodes */
 //	u_int64_t ctime;
 //	int64_t parent_obj_id;	/* parent directory obj_id */
+	parent_obj_id	int64	/* parent directory obj_id */
 //	uuid_t	  uid;
 //	uuid_t	  gid;
 //
@@ -813,13 +820,20 @@ const HAMMER_INODE_CAP_DIR_LOCAL_INO		= 0x04
 // * NOTE: den_name / the filename data reference is NOT terminated with \0.
 // */
 //struct hammer_entry_data {
+type hammer_entry_data struct {
 //	int64_t obj_id;			/* object being referenced */
+	obj_id	int64			/* object being referenced */
 //	u_int32_t localization;		/* identify pseudo-filesystem */
 //	u_int32_t reserved02;
 //	char	name[16];		/* name (extended) */
+	name	[16]rune		/* name (extended) */
 //};
+}
 //
 //#define HAMMER_ENTRY_NAME_OFF	offsetof(struct hammer_entry_data, name[0])
+func HAMMER_ENTRY_NAME_OFF() uintptr {
+	return unsafe.Offsetof(new(hammer_entry_data).name)
+}
 //#define HAMMER_ENTRY_SIZE(nlen)	offsetof(struct hammer_entry_data, name[nlen])
 //
 ///*
@@ -926,6 +940,10 @@ type hammer_data_ondisk []byte
 //	struct hammer_snapshot_data snap;
 //	struct hammer_config_data config;
 //};
+func (d *hammer_data_ondisk) entry() (e *hammer_entry_data) {
+	binary.Read(bytes.NewReader(*d), binary.LittleEndian, e)
+	return e
+}
 //
 //typedef union hammer_data_ondisk *hammer_data_ondisk_t;
 //

@@ -186,7 +186,7 @@ type hammer_transaction struct {
 //	struct hammer_volume *rootvol;
 //};
 }
-type rootvol * hammer_volume
+type rootvol *hammer_volume
 //
 
 //typedef struct hammer_transaction *hammer_transaction_t;

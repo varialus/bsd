@@ -37,8 +37,11 @@
 package hammer
 
 import(
+	"fmt"
+	"github.com/varialus/bsd/sys/kern"
 	"github.com/varialus/bsd/sys/sys"
 	"github.com/varialus/bsd/temporary_translation_utilities"
+	"unsafe"
 )
 
 //
@@ -1692,40 +1695,78 @@ func Hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //int
 //hammer_vop_readdir(struct vop_readdir_args *ap)
 //{
+func Hammer_vop_readdir(ap *sys.Vop_readdir_args) int {
 //	struct hammer_transaction trans;
+	var trans hammer_transaction
 //	struct hammer_cursor cursor;
+	var cursor hammer_cursor
 //	struct hammer_inode *ip;
+	var ip *hammer_inode
 //	hammer_mount_t hmp;
+	var hmp hammer_mount_t
 //	struct uio *uio;
+	var uio *sys.Uio
 //	hammer_base_elm_t base;
+	var base hammer_base_elm_t
 //	int error;
+	var error int
 //	int cookie_index;
+	var cookie_index int
 //	int ncookies;
+	var ncookies int
 //	off_t *cookies;
+	var cookies *sys.Off_t
 //	off_t saveoff;
+	var saveoff sys.Off_t
 //	int r;
+	var r int
 //	int dtype;
+	var dtype int
 //
+
 //	++hammer_stats_file_iopsr;
+	hammer_stats_file_iopsr++
 //	ip = VTOI(ap->a_vp);
+	/* Manually Expanded Macro from hammer.go*/
+	//((struct hammer_inode *)(ap->a_vp)->v_data)
+	ip = (*hammer_inode)(ap.A_vp.V_data)
 //	uio = ap->a_uio;
+	uio = ap.A_uio
 //	saveoff = uio->uio_offset;
+	saveoff = uio.Uio_offset
 //	hmp = ip->hmp;
+	hmp = ip.hmp
 //
+
 //	if (ap->a_ncookies) {
+	if ap.A_ncookies != nil {
 //		ncookies = uio->uio_resid / 16 + 1;
+		ncookies = int(uio.Uio_resid) / 16 + 1
 //		if (ncookies > 1024)
+		if ncookies > 1024 {
 //			ncookies = 1024;
+			ncookies = 1024;
+		}
 //		cookies = kmalloc(ncookies * sizeof(off_t), M_TEMP, M_WAITOK);
+		cookies = (*sys.Off_t)(kern.Kmalloc(uint32(uintptr(ncookies) * unsafe.Sizeof(new(sys.Off_t))), &kern.M_TEMP, sys.M_WAITOK))
 //		cookie_index = 0;
+		cookie_index = 0
 //	} else {
+	} else {
 //		ncookies = -1;
+		ncookies = 0
 //		cookies = NULL;
+		cookies = nil
 //		cookie_index = 0;
+		cookie_index = 0
 //	}
+	}
 //
+
 //	lwkt_gettoken(&hmp->fs_token);
+	kern.Lwkt_gettoken(&hmp.fs_token);
 //	hammer_simple_transaction(&trans, hmp);
+	hammer_simple_transaction(&trans, hmp);
 //
 //	/*
 //	 * Handle artificial entries
@@ -1735,114 +1776,231 @@ func Hammer_vop_getattr(ap *sys.Vop_getattr_args) int {
 //	 * less then that to represent our 'special' key space.
 //	 */
 //	error = 0;
+	error = 0
 //	if (saveoff == 0) {
+	if saveoff == 0 {
 //		r = vop_write_dirent(&error, uio, ip->obj_id, DT_DIR, 1, ".");
+		r = kern.Vop_write_dirent(&error, uio, sys.Ino_t(ip.obj_id), sys.DT_DIR, 1, ".")
 //		if (r)
+		if r != 0 {
 //			goto done;
+			goto done
+		}
 //		if (cookies)
+		if cookies != nil {
 //			cookies[cookie_index] = saveoff;
+			cookies = &saveoff
+		}
 //		++saveoff;
+		saveoff++
 //		++cookie_index;
+		cookie_index++
 //		if (cookie_index == ncookies)
+		if cookie_index == ncookies {
 //			goto done;
+			goto done
+		}
 //	}
+	}
 //	if (saveoff == 1) {
+	if saveoff == 1 {
 //		if (ip->ino_data.parent_obj_id) {
+		if ip.ino_data.parent_obj_id != 0 {
 //			r = vop_write_dirent(&error, uio,
+			r = kern.Vop_write_dirent(&error, uio,
 //					     ip->ino_data.parent_obj_id,
+					     sys.Ino_t(ip.ino_data.parent_obj_id),
 //					     DT_DIR, 2, "..");
+					     sys.DT_DIR, 2, "..")
 //		} else {
+		} else {
 //			r = vop_write_dirent(&error, uio,
+			r = kern.Vop_write_dirent(&error, uio,
 //					     ip->obj_id, DT_DIR, 2, "..");
+					     sys.Ino_t (ip.obj_id), sys.DT_DIR, 2, "..")
 //		}
+		}
 //		if (r)
+		if r != 0 {
 //			goto done;
+			goto done
+		}
 //		if (cookies)
+		if cookies != nil {
 //			cookies[cookie_index] = saveoff;
+			cookies = &saveoff
+		}
 //		++saveoff;
+		saveoff++
 //		++cookie_index;
+		cookie_index++
 //		if (cookie_index == ncookies)
+		if cookie_index == ncookies {
 //			goto done;
+			goto done
+		}
 //	}
+	}
 //
+
 //	/*
 //	 * Key range (begin and end inclusive) to scan.  Directory keys
 //	 * directly translate to a 64 bit 'seek' position.
 //	 */
 //	hammer_init_cursor(&trans, &cursor, &ip->cache[1], ip);
+	hammer_init_cursor(&trans, &cursor, &ip.cache[1], ip)
 //	cursor.key_beg.localization = ip->obj_localization +
+	cursor.key_beg.localization = ip.obj_localization +
 //				      hammer_dir_localization(ip);
+				      hammer_dir_localization(*ip)
 //	cursor.key_beg.obj_id = ip->obj_id;
+	cursor.key_beg.obj_id = ip.obj_id
 //	cursor.key_beg.create_tid = 0;
+	cursor.key_beg.create_tid = 0
 //	cursor.key_beg.delete_tid = 0;
+	cursor.key_beg.delete_tid = 0
 //        cursor.key_beg.rec_type = HAMMER_RECTYPE_DIRENTRY;
+        cursor.key_beg.rec_type = HAMMER_RECTYPE_DIRENTRY
 //	cursor.key_beg.obj_type = 0;
+	cursor.key_beg.obj_type = 0
 //	cursor.key_beg.key = saveoff;
+	cursor.key_beg.key = int64(saveoff)
 //
+
 //	cursor.key_end = cursor.key_beg;
+	cursor.key_end = cursor.key_beg
 //	cursor.key_end.key = HAMMER_MAX_KEY;
+	cursor.key_end.key = HAMMER_MAX_KEY
 //	cursor.asof = ip->obj_asof;
+	cursor.asof = ip.obj_asof
 //	cursor.flags |= HAMMER_CURSOR_END_INCLUSIVE | HAMMER_CURSOR_ASOF;
+	cursor.flags |= HAMMER_CURSOR_END_INCLUSIVE | HAMMER_CURSOR_ASOF
 //
+
 //	error = hammer_ip_first(&cursor);
+	error = hammer_ip_first(&cursor)
 //
+
 //	while (error == 0) {
+	for error == 0 {
 //		error = hammer_ip_resolve_data(&cursor);
+		error = hammer_ip_resolve_data(&cursor)
 //		if (error)
+		if error != 0 {
 //			break;
+			break
+		}
 //		base = &cursor.leaf->base;
+		base = &cursor.leaf.base
 //		saveoff = base->key;
+		saveoff = sys.Off_t(base.key)
 //		KKASSERT(cursor.leaf->data_len > HAMMER_ENTRY_NAME_OFF);
+		kern.KKASSERT(cursor.leaf.data_len > int32(HAMMER_ENTRY_NAME_OFF()))
 //
+
 //		if (base->obj_id != ip->obj_id)
+		if base.obj_id != ip.obj_id {
 //			panic("readdir: bad record at %p", cursor.node);
+			panic(fmt.Sprintf("readdir: bad record at %p", cursor.node))
+		}
 //
+
 //		/*
 //		 * Convert pseudo-filesystems into softlinks
 //		 */
 //		dtype = hammer_get_dtype(cursor.leaf->base.obj_type);
+		dtype = hammer_get_dtype(cursor.leaf.base.obj_type)
 //		r = vop_write_dirent(
 //			     &error, uio, cursor.data->entry.obj_id,
 //			     dtype,
 //			     cursor.leaf->data_len - HAMMER_ENTRY_NAME_OFF ,
 //			     (void *)cursor.data->entry.name);
+		r = kern.Vop_write_dirent(&error, uio, sys.Ino_t(cursor.data.entry().obj_id), uint8(dtype), uint16(int64(cursor.leaf.data_len) - int64(HAMMER_ENTRY_NAME_OFF())), string(cursor.data.entry().name[:]))
 //		if (r)
+		if r != 0 {
 //			break;
+			break
+		}
 //		++saveoff;
+		saveoff++
 //		if (cookies)
+		if cookies != nil {
 //			cookies[cookie_index] = base->key;
+			off_t := sys.Off_t(base.key)
+			cookies = &off_t
+		}
 //		++cookie_index;
+		cookie_index++
 //		if (cookie_index == ncookies)
+		if cookie_index == ncookies {
 //			break;
+			break
+		}
 //		error = hammer_ip_next(&cursor);
+		error = hammer_ip_next(&cursor)
 //	}
+	}
 //	hammer_done_cursor(&cursor);
+	hammer_done_cursor(&cursor)
 //
+
 //done:
+done:
 //	hammer_done_transaction(&trans);
+	hammer_done_transaction(&trans)
 //
+
 //	if (ap->a_eofflag)
+	if ap.A_eofflag != nil {
 //		*ap->a_eofflag = (error == ENOENT);
+		if error == sys.ENOENT {
+			*ap.A_eofflag = 1
+		} else {
+			*ap.A_eofflag = 0
+		}
+	}
 //	uio->uio_offset = saveoff;
+	uio.Uio_offset = saveoff
 //	if (error && cookie_index == 0) {
+	if (error != 0) && cookie_index == 0 {
 //		if (error == ENOENT)
+		if error == sys.ENOENT {
 //			error = 0;
+			error = 0
+		}
 //		if (cookies) {
+		if cookies != nil {
 //			kfree(cookies, M_TEMP);
+			kern.Kfree(unsafe.Pointer(cookies), &kern.M_TEMP)
 //			*ap->a_ncookies = 0;
+			*ap.A_ncookies = 0
 //			*ap->a_cookies = NULL;
+			*ap.A_cookies = nil
 //		}
+		}
 //	} else {
+	} else {
 //		if (error == ENOENT)
+		if error == sys.ENOENT {
 //			error = 0;
+			error = 0
+		}
 //		if (cookies) {
+		if cookies != nil {
 //			*ap->a_ncookies = cookie_index;
+			*ap.A_ncookies = cookie_index
 //			*ap->a_cookies = cookies;
+			*ap.A_cookies = cookies
 //		}
+		}
 //	}
+	}
 //	lwkt_reltoken(&hmp->fs_token);
+	kern.Lwkt_reltoken(&hmp.fs_token)
 //	return(error);
+	return error
 //}
+}
 //
 ///*
 // * hammer_vop_readlink { vp, uio, cred }

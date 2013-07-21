@@ -123,7 +123,7 @@ type hammer_cursor struct {
 //	struct hammer_btree_leaf_elm *leaf;
 	leaf *hammer_btree_leaf_elm
 //	union hammer_data_ondisk *data;
-	data *int
+	data *hammer_data_ondisk
 	hammer_data_on_disk int
 //
 //	/*
@@ -233,11 +233,13 @@ type hammer_cmirror struct {
 //hammer_init_cursor(hammer_transaction_t trans, hammer_cursor_t cursor,
 //		   hammer_node_cache_t cache, hammer_inode_t ip)
 //{
+func hammer_init_cursor(trans hammer_transaction_t, cursor hammer_cursor_t, cache hammer_node_cache_t, ip hammer_inode_t) int {
 //	hammer_volume_t volume;
 //	hammer_node_t node;
 //	hammer_mount_t hmp;
 //	u_int tticks;
 //	int error;
+	var error int
 //
 //	bzero(cursor, sizeof(*cursor));
 //
@@ -388,7 +390,9 @@ type hammer_cmirror struct {
 //	KKASSERT(error == 0);
 //	/* if (error) hammer_done_cursor(cursor); */
 //	return(error);
+	return error
 //}
+}
 //
 ///*
 // * Normalize a cursor.  Sometimes cursors can be left in a state
@@ -411,6 +415,7 @@ type hammer_cmirror struct {
 //void
 //hammer_done_cursor(hammer_cursor_t cursor)
 //{
+func hammer_done_cursor(cursor hammer_cursor_t) {
 //	hammer_inode_t ip;
 //
 //	KKASSERT((cursor->flags & HAMMER_CURSOR_TRACKED) == 0);
@@ -479,6 +484,7 @@ type hammer_cmirror struct {
 //	cursor->right_bound = NULL;
 //	cursor->trans = NULL;
 //}
+}
 //
 ///*
 // * Upgrade cursor->node and cursor->parent to exclusive locks.  This
