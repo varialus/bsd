@@ -2009,20 +2009,37 @@ done:
 //int
 //hammer_vop_readlink(struct vop_readlink_args *ap)
 //{
+func hammer_vop_readlink(ap *sys.Vop_readlink_args) int {
 //	struct hammer_transaction trans;
+	var trans hammer_transaction
 //	struct hammer_cursor cursor;
+	var cursor hammer_cursor
 //	struct hammer_inode *ip;
+	var ip *hammer_inode
 //	hammer_mount_t hmp;
+	var hmp hammer_mount_t
 //	char buf[32];
+	var buf [32]byte
 //	u_int32_t localization;
+	var localization uint32
 //	hammer_pseudofs_inmem_t pfsm;
+	var pfsm hammer_pseudofs_inmem_t
 //	int error;
+	var error int
 //
+
 //	ip = VTOI(ap->a_vp);
+	/* Manually Expanded Macro from hammer.go*/
+	//((struct hammer_inode *)(ap->a_vp)->v_data)
+	ip = (*hammer_inode)(ap.A_vp.V_data)
 //	hmp = ip->hmp;
+	hmp = ip.hmp
 //
+
 //	lwkt_gettoken(&hmp->fs_token);
+	kern.Lwkt_gettoken(&hmp.fs_token)
 //
+
 //	/*
 //	 * Shortcut if the symlink data was stuffed into ino_data.
 //	 *
@@ -2116,7 +2133,10 @@ done:
 //	hammer_done_transaction(&trans);
 //	lwkt_reltoken(&hmp->fs_token);
 //	return(error);
+	temporary_translation_utilities.Use_vars_so_compiler_does_not_complain(trans, cursor, ip, hmp, buf, localization, pfsm)
+	return error
 //}
+}
 //
 ///*
 // * hammer_vop_nremove { nch, dvp, cred }

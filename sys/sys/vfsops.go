@@ -296,11 +296,14 @@ type Vop_readdir_args struct {
 }
 //
 //struct vop_readlink_args {
+type Vop_readlink_args struct {
 //	struct vop_generic_args a_head;
 //	struct vnode *a_vp;
+	A_vp *Vnode
 //	struct uio *a_uio;
 //	struct ucred *a_cred;
 //};
+}
 //
 //struct vop_inactive_args {
 //	struct vop_generic_args a_head;
